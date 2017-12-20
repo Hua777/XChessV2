@@ -1,0 +1,131 @@
+#!/usr/bin/env node
+
+var app = require('../app');
+var http = require('http');
+var server = http.createServer(app);
+var server = server.listen(80);
+var io = require('socket.io').listen(server);
+
+var F = require('../_FUNCTION.js');
+var P = require('../Person.js');
+var Room = require('../Room.js');
+var DATA = require('../_DATA.js');
+
+Array.prototype.remove = function(e) { for (var i = 0; i < this.length; i++) { if (e == this[i]) { return this.splice(i, 1); } } };
+Array.prototype.find = function(Name) { for (var i = 0; i < this.length; i++) { if (Name == this[i].Name) { return this[i]; } } return null; };
+
+var personList = [];
+var roomList = [];
+
+var EmitPersonLen = () => {
+    for (var i = 0; i < personList.length; ++i) {
+        personList[i].Emit('plen', {
+            Length: personList.length
+        });
+    }
+}
+
+var EmitRoomList = () => {
+    var data = [];
+    for (var i = roomList.length - 1, j = 0; i >= 0 && j < 10; --i, ++j) {
+        data.push({
+            PlayersLen: roomList[i].PlayersLen(),
+            Name: roomList[i].Name
+        });
+    }
+    for (var i = 0; i < personList.length; ++i) {
+        personList[i].Emit('rlist', data);
+    }
+}
+
+var NewPerson = (_socket) => {
+    var id = F.RandomId();
+    while (personList.find(id) !== null) {
+        id = F.RandomId();
+    }
+    var person = new P(id, _socket);
+    return person;
+}
+
+io.sockets.on('connection', function(socket) {
+
+    var person = NewPerson(socket);
+    personList.push(person);
+    //console.log('玩家[' + person.Name + ']加入伺服器');
+    EmitPersonLen();
+    EmitRoomList();
+
+    socket.on('join', function(data) {
+        person.NickName = data.NickName;
+        //console.log('玩家[' + person.Name + ']有了名字[' + person.NickName + ']');
+        var room = roomList.find(data.RoomName);
+        if (room !== null) {
+            if (room.Join(person)) {
+                console.log('玩家[' + person.NickName + ']加入房間[' + room.Name + ']以身分[' + DATA.OwnerName[person.Owner] + ']');
+            } else {
+                console.log('玩家[' + person.NickName + ']已經存在於房間[' + room.Name + ']');
+            }
+        } else {
+            room = new Room(data.RoomName);
+            roomList.push(room);
+            if (room.Join(person)) {
+                console.log('玩家[' + person.NickName + ']創建房間[' + room.Name + ']以身分[' + DATA.OwnerName[person.Owner] + ']加入');
+            } else {
+                console.log('玩家[' + person.NickName + ']已經存在於房間[' + room.Name + ']');
+            }
+        }
+        if (data.AI) {
+            room.IsAIRoom();
+            console.log('這是AI房間');
+        }
+        EmitPersonLen();
+        EmitRoomList();
+    });
+
+    socket.on('move', function(data) {
+        if (person.Room !== null) {
+            person.Room.MoveTo(person, data.FX, data.FY, data.TX, data.TY);
+        }
+    });
+
+    //Move Position
+    socket.on('mp', function(data) {
+        if (person.Room !== null) {
+            person.Room.EmitAll('mp', data);
+        }
+    });
+
+    //Choose Position
+    socket.on('cp', function(data) {
+        if (person.Room !== null) {
+            person.Room.EmitAll('cp', data);
+        }
+    });
+
+    //End of the game
+    socket.on('eog', function(data) {
+        if (person.Room !== null) {
+            person.Room.EndOfTheGame(data.Ender);
+        }
+    });
+
+    socket.on('disconnect', function(data) {
+        var room = person.Room;
+        if (room !== null) {
+            room.Remove(person);
+            console.log('玩家[' + person.NickName + ']離開房間[' + room.Name + ']');
+            if (room.PlayersLen() == 0 || (room.PlayersLen() == 1 && room.AIRoom)) {
+                roomList.remove(room);
+                console.log('房間[' + room.Name + ']被刪除');
+            }
+            console.log('玩家[' + person.NickName + ']離開伺服器');
+        }
+        personList.remove(person);
+        EmitPersonLen();
+        EmitRoomList();
+    });
+});
+
+var dairoom = new Room("永远的AI房间");
+dairoom.IsDAIRoom();
+roomList.push(dairoom);

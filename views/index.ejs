@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="孤獨象棋 - 全世界的象棋">
+    <meta name="author" content="Hua777">
+
+    <title>孤獨象棋 - 全世界的象棋</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/stylesheets/index.css">
+
+</head>
+
+<body>
+
+    <div class="tagline-upper text-center text-heading text-shadow text-white mt-5 d-none d-lg-block">孤獨象棋</div>
+    <div class="tagline-lower text-center text-expanded text-shadow text-uppercase text-white mb-5 d-none d-lg-block">全世界超過數十億（<span id="allpeople">0</span>）玩家同時上線，你還在等什麼？</div>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-faded py-lg-4">
+        <div class="container">
+            <a class="navbar-brand text-uppercase text-expanded font-weight-bold d-lg-none" href="#">XChess</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item px-lg-4">
+                        <a class="nav-link text-uppercase text-expanded" href="/">首頁</a>
+                    </li>
+                    <li class="nav-item px-lg-4">
+                        <a class="nav-link text-uppercase text-expanded" target="blank" href="https://github.com/Hua777/xchessv2">GitHub</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <div class="bg-faded p-4 my-4">
+            <div class="text-center mt-4">
+                <div class="text-heading text-muted text-lg">歡迎來到</div>
+                <h1 class="my-2">孤獨象棋</h1>
+                <div class="text-heading text-muted text-lg">
+                    <strong>輸入暱稱以及房間號開始遊戲</strong>
+                    <div class="enter-group">
+                        <div class="form-group">
+                            <label class="control-label" for="enterRoom">房間號:</label>
+                            <input type="text" id="enterRoom" value="<%= roomname %>" class="form-control" placeholder="房間號（5個字以上）">
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="enterNick">暱稱:</label>
+                            <input type="text" id="enterNick" value="<%= nickname %>" class="form-control" placeholder="暱稱">
+                        </div>
+                        <button id="enter" type="button" class="btn btn-success">進入戰鬥！</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-faded p-4 my-4" id="roomsctrl">
+            <hr class="divider">
+            <h2 class="text-center text-lg text-uppercase my-0">最新房間
+                <strong>Rooms</strong>
+            </h2>
+            <hr class="divider">
+            <div id="rooms">
+                
+            </div>
+        </div>
+
+        <div class="bg-faded p-4 my-4">
+            <hr class="divider">
+            <h2 class="text-center text-lg text-uppercase my-0">核心技術
+                <strong>NodeJS</strong>
+            </h2>
+            <hr class="divider">
+            <img class="img-fluid float-left mr-4 d-none d-lg-block" src="/images/intro1.png" alt="NodeJS">
+            <p>靈活運用NodeJS，做為後端改寫網址請求路徑。</p>
+            <p>使用Socket，讓客戶端監聽伺服建立玩家房間。</p>
+        </div>
+
+        <div class="bg-faded p-4 my-4">
+            <hr class="divider">
+            <h2 class="text-center text-lg text-uppercase my-0">未來展望
+                <strong>AI</strong>
+            </h2>
+            <hr class="divider">
+            <img class="img-fluid float-left mr-4 d-none d-lg-block" src="/images/intro2.png" alt="AI">
+            <p>透過Tensorflow加入神經元，自動探索與學習。</p>
+            <p>俺的移動永遠是對的！</p>
+        </div>
+
+    </div>
+
+    <footer class="bg-faded text-center py-5">
+        <div class="container">
+            <p class="m-0">Copyright &copy;2017 Hua777 xchess.ga</p>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/javascripts/index.js"></script>
+
+</body>
+
+</html>

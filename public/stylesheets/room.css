@@ -1,0 +1,103 @@
+html,
+body {
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+#map {
+    display: inline-block;
+    cursor: pointer;
+}
+
+#errMsg {
+    display: none;
+    font-size: 25px;
+    max-width: 100%;
+    width: 75%;
+    text-align: center;
+    position: fixed;
+    color: white;
+    left: 50%;
+    top: 50%;
+}
+
+.right-bottom {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+}
+
+.left-bottom {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+}
+
+.left-top {
+    position: fixed;
+    left: 0;
+    top: 0;
+}
+
+.right-top {
+    position: fixed;
+    right: 0;
+    top: 0;
+}
+
+.center-bottom {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+}
+
+button {
+    cursor: pointer;
+}
+
+#byebye {
+    display: none;
+}
+
+.small-name {
+    font-size: 30px;
+    color: black;
+}
+
+.name {
+    font-size: 50px;
+    color: black;
+}
+
+.now {
+    color: red !important;
+    font-weight: bolder;
+    transition: 1s;
+}
+
+.notnow {
+    color: black !important;
+    transition: 1s;
+}
+
+@media (orientation:portrait) {
+    .small-name,
+    .name,
+    button {
+        zoom: 40%;
+    }
+    .small-name,
+    .name {
+        color: white;
+    }
+    .notnow {
+        color: white !important;
+    }
+    .small-hidden {
+        display: none;
+    }
+}

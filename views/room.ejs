@@ -1,0 +1,44 @@
+<html>
+
+<head>
+    <title>
+        <%= roomname %> -
+            <%= nickname %> - 孤獨象棋</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/stylesheets/room.css">
+</head>
+
+<body>
+    <canvas id="map"></canvas>
+    <div id="errMsg"></div>
+    <div class="center-bottom">
+        <span id="name" class="small-name"></span>
+    </div>
+    <div class="left-top">
+        <span id="enemyName" class="name"></span>
+    </div>
+    <div class="right-bottom">
+        <span id="myName" class="name"></span>
+    </div>
+    <div class="left-bottom">
+        <button id="quit" type="button" class="btn btn-success small-hidden">離開</button>
+        <button id="byebye" type="button" class="btn btn-danger">投降</button>
+        <span class="small-hidden">目前有<span id="lookerLen">0</span>位觀戰</span>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="/javascripts/jquery.jrumble.1.3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var roomname = '<%= roomname %>',
+            nickname = '<%= nickname %>',
+            ai = <%= ai %>;
+    </script>
+    <script src="/javascripts/room.js"></script>
+</body>
+
+</html>
